@@ -12,4 +12,4 @@ Some word about list of video learning:
  - you will learn how to create an email list
  - etc.
  
- Really, very cool channel for user, who want to learn actual programming technology
+ Really, very cool channel for user, who want to do first step and learn actual programming technology
