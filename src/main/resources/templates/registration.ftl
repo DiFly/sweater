@@ -4,6 +4,6 @@
     <h3>
         Add new user
     </h3>
-    <#--${message}-->
+    ${message?ifExists}
     <@l.login "/registration" />
 </@c.page>

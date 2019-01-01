@@ -14,7 +14,7 @@
     </section>
     <section>
         <form method="get" action="/main">
-            <input type="text" name="filter" value="${filter}">
+            <input type="text" name="filter" value="${filter?ifExists}">
             <button type="submit">Search</button>
         </form>
     </section>
