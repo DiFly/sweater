@@ -3,6 +3,7 @@
 <@c.page>
     <section>
         <@l.logout />
+        <span><a href="/user">User list</a></span>
     </section>
     <section>
         <form method="post">
