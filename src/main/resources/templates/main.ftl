@@ -1,39 +1,55 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/login.ftl" as l>
 <@c.page>
-    <section>
-        <@l.logout />
-        <span><a href="/user">User list</a></span>
+    <section class="form-row">
+        <div class="form-group col-md6">
+            <form method="get" action="/main" class="form-inline">
+                <input type="text" name="filter" value="${filter?ifExists}" class="form-control mr-3" placeholder="Search by tag">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
     </section>
-    <section>
-        <form method="post" enctype="multipart/form-data">
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <input type="text" name="text" placeholder="Enter messages">
-            <input type="text" name="tag" placeholder="Tag">
-            <input type="file" name="file" placeholder="Select file">
-            <button type="submit">Adding</button>
-        </form>
+
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Add new Message
+    </a>
+
+    <section class="collapse" id="collapseExample">
+        <div class="form-group mt-3">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="text" class="form-control mr-3" name="text" placeholder="Enter messages">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control mr-3" name="tag" placeholder="Tag">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input mr-3" id="customFile" name="file" placeholder="Select file">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Adding</button>
+                </div>
+            </form>
+        </div>
     </section>
-    <section>
-        <form method="get" action="/main">
-            <input type="text" name="filter" value="${filter?ifExists}">
-            <button type="submit">Search</button>
-        </form>
-    </section>
-    <section>
-        <h3>
-            List of messages
-        </h3>
+
+    <section class="card-columns">
         <#list messages as message>
-        <div>
-            <b>${message.id}</b>
-            <span>${message.text}</span>
-            <i>${message.tag}</i>
-            <strong>${message.authorName}</strong>
-            <div>
-                <#if message.filename??>
-                    <img src="/img/${message.filename}">
-                </#if>
+        <div class="card my-3">
+            <#if message.filename??>
+                <img src="/img/${message.filename}" class="card-img-top">
+            </#if>
+            <div class="m-2">
+                <span>${message.text}</span>
+                <i>${message.tag}</i>
+            </div>
+
+            <div class="card-footer text-muted">
+                ${message.authorName}
             </div>
         </div>
         <#else>
