@@ -4,6 +4,7 @@
 <h3 class="mb-1">
     Login page
 </h3>
+    ${message?ifExists}
     <@l.login "/login" false/>
 
 </@c.page>
