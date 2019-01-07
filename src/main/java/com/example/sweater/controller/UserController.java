@@ -30,6 +30,7 @@ public class UserController {
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model){
         model.addAttribute("user", user);
+        model.addAttribute("email", user.getEmail());
         model.addAttribute("roles", Role.values());
 
         return "userEdit";
@@ -38,10 +39,12 @@ public class UserController {
     @PostMapping
     public String userSave(
             @RequestParam String username,
+            @RequestParam String email,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
     ){
         user.setUsername(username);
+        user.setEmail(email);
 
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
