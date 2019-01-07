@@ -53,7 +53,9 @@
             </div>
         </div>
         <#else>
-            No message
+            <div class="ml-2">
+                No message
+            </div>
         </#list>
     </section>
 </@c.page>

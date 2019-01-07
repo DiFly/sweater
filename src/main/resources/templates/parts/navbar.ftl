@@ -20,13 +20,18 @@
                     <a class="nav-link" href="/user">User list</a>
                 </li>
             </#if>
-
+            <#if user??>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/profile">Profile</a>
+                </li>
+            </#if>
         </ul>
 
         <div class="navbar-text mr-3">
             ${name}
         </div>
-        <#if name != "unknown">
+        <#--<#if name != "unknown">-->
+        <#if user??>
             <@l.logout />
         <#else>
             <a href="/login" class="btn btn-primary">Log in</a>
