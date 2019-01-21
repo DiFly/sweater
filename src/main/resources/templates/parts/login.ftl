@@ -53,6 +53,14 @@
                     </#if>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="g-recaptcha" data-sitekey="6LdFjIsUAAAAAChuKd-PAg00h0uviXnL98RfIgiO"></div>
+                <#if captchaError??>
+                    <div class="alert alert-danger" role="alert">
+                    ${captchaError}
+                    </div>
+                </#if>
+            </div>
         </#if>
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <button class="btn btn-primary mr-3" type="submit">
