@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -35,7 +36,6 @@ public class MainController {
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
-
         return "greeting";
 
     }
@@ -108,9 +108,14 @@ public class MainController {
             @PathVariable User user,
             Model model,
             @RequestParam(required = false) Message message
+//            @RequestParam("message") Message message
     ){
         Set<Message> messages = user.getMessages();
 
+        model.addAttribute("userChannel", user);
+        model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
+        model.addAttribute("subscribersCount", user.getSubscribers().size());
+        model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
         model.addAttribute("messages", messages);
         model.addAttribute("message", message);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
