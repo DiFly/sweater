@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,6 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithUserDetails("admin")
+@TestPropertySource("/application-test.properties")
+@Sql(value = {"/create-user-before.sql", "/message-list-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/message-list-after.sql", "/create_user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class MainControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +44,19 @@ public class MainControllerTest {
         this.mockMvc.perform(get("/main"))
                 .andDo(print())
                 .andExpect(authenticated())
-                .andExpect(xpath("").nodeCount(0));
+                .andExpect(xpath("//section[@id='message-list']/div").nodeCount(4));
     }
+
+    @Test
+    public void filterMessageTest() throws Exception {
+        this.mockMvc.perform(get("/main").param("filter", "my-tag"))
+                .andDo(print())
+                .andExpect(authenticated())
+                .andExpect(xpath("//section[@id='message-list']/div").nodeCount(2))
+                .andExpect(xpath("//section[@id='message-list']/div[@data-id=1]").exists())
+                .andExpect(xpath("//section[@id='message-list']/div[@data-id=3]").exists());
+    }
+
+
 
 }
